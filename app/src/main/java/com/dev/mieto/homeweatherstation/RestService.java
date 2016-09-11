@@ -1,7 +1,6 @@
 package com.dev.mieto.homeweatherstation;
 
 import retrofit2.Call;
-import retrofit2.http.POST;
 import retrofit2.http.GET;
 
 /**
@@ -11,5 +10,8 @@ public interface RestService {
 
     @GET("/temperature/api/v1/readings")
     Call<MeasurementResult> getResults();
+
+    @GET("/temperature/api/v1/days")
+    Call<DayDataResult> getDays();
 
 }

@@ -5,9 +5,10 @@ package com.dev.mieto.homeweatherstation;
  */
 public class DayData {
 
+    /*Those variables should correspond to data returned by REST API */
     String number;
     String date;
-    String temperatures;
-    String times;
+    int[] temperatures;
+    long[] times;
 
 }

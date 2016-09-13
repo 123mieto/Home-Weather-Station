@@ -25,7 +25,7 @@ public class DaysActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_days);
-        recyclerView = (RecyclerView) findViewById(R.id.star_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.days_recycler_view);
         prepareRetrofit();
     }
 
@@ -40,7 +40,7 @@ public class DaysActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<DayDataResult> call, Response<DayDataResult> response) {
                 Log.d(TAG, "onResponse: OK ");
-                DayViewAdapter measAdapter = new DayViewAdapter(response.body().results);
+                DayViewAdapter measAdapter = new DayViewAdapter(response.body().days);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(DaysActivity.this));
                 recyclerView.setAdapter(measAdapter);

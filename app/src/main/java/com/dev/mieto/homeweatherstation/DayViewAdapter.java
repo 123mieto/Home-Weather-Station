@@ -1,11 +1,15 @@
 package com.dev.mieto.homeweatherstation;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.db.chart.Tools;
+import com.db.chart.model.LineSet;
+import com.db.chart.view.AxisController;
 import com.db.chart.view.LineChartView;
 
 import java.util.List;
@@ -15,10 +19,19 @@ import java.util.List;
  */
 public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewViewHolder> {
 
-    List<DayData> mDayData;
+    private List<DayData> mDayData;
+
+    private long[] mTimesREST;
+    private int[] mTemperaturesREST;
 
     public DayViewAdapter(List<DayData> results) {
         this.mDayData = results;
+    }
+
+    private LineSet prepChartDataset() {
+        LineSet chartDataset = new LineSet(new String[]{"", ""}, new float[]{0f, 20.0f});
+
+        return chartDataset;
     }
 
     @Override
@@ -30,7 +43,37 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
     @Override
     public void onBindViewHolder(DayViewViewHolder holder, int position) {
         holder.date.setText(mDayData.get(position).date);
-        //todo: dodac measChart
+        mTimesREST = mDayData.get(position).times;
+        mTemperaturesREST = mDayData.get(position).temperatures;
+
+        if (mTemperaturesREST.length > 0) {
+//            float[] tempRESTfloat = new float[mTemperaturesREST.length];
+//            String[] tempRESTstr = new String[mTemperaturesREST.length];
+            float[] tempRESTfloat = new float[30];
+            String[] tempRESTstr = new String[30];
+            for (int i = 0; i < 30; i++) {
+                tempRESTfloat[i] = (float) mTemperaturesREST[i];
+                tempRESTstr[i] = "ASD";
+            }
+
+            LineSet dataset = new LineSet(tempRESTstr, tempRESTfloat);
+            dataset.setColor(Color.parseColor("#758cbb"))
+                    .setDotsColor(Color.parseColor("#758cbb"))
+                    .setThickness(4)
+                    .setDashed(new float[]{10f, 10f});
+            holder.measChart.addData(dataset);
+
+            holder.measChart.setBorderSpacing(Tools.fromDpToPx(15))
+                    .setAxisBorderValues(18, 30)
+                    .setYLabels(AxisController.LabelPosition.NONE)
+                    .setLabelsColor(Color.parseColor("#6a84c3"))
+                    .setXAxis(false)
+                    .setYAxis(false);
+
+            holder.measChart.show();
+
+        }
+
     }
 
     @Override
@@ -38,7 +81,7 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
         return mDayData.size();
     }
 
-    public static class DayViewViewHolder extends RecyclerView.ViewHolder{
+    public static class DayViewViewHolder extends RecyclerView.ViewHolder {
 
         TextView date;
         LineChartView measChart;

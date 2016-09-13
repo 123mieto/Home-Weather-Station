@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class DayDataResult {
 
-    List<DayData> results = new ArrayList<>();
+    /* This variable should be called the same as container in API call */
+    List<DayData> days = new ArrayList<>();
 
 }

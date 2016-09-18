@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,12 +21,15 @@ public class DaysActivity extends AppCompatActivity {
     public static final String ENDPOINT = "http://192.168.0.87:5000";
 
     RecyclerView recyclerView;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_days);
         recyclerView = (RecyclerView) findViewById(R.id.days_recycler_view);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         prepareRetrofit();
     }
 

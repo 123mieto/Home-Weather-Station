@@ -53,7 +53,7 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
             String[] tempRESTstr = new String[30];
             for (int i = 0; i < 30; i++) {
                 tempRESTfloat[i] = (float) mTemperaturesREST[i];
-                tempRESTstr[i] = "ASD";
+                tempRESTstr[i] = "";
             }
 
             LineSet dataset = new LineSet(tempRESTstr, tempRESTfloat);

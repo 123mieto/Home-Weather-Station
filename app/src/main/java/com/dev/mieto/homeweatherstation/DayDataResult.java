@@ -9,6 +9,14 @@ import java.util.List;
 public class DayDataResult {
 
     /* This variable should be called the same as container in API call */
-    List<DayData> days = new ArrayList<>();
+    private List<DayData> days = new ArrayList<>();
+
+    public List<DayData> getDays(){
+        return days;
+    }
+
+    public void setDays(ArrayList<DayData> days){
+        this.days = days;
+    }
 
 }

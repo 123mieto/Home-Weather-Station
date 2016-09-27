@@ -42,9 +42,9 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
     @Override
     public void onBindViewHolder(DayViewViewHolder holder, int position) {
-        holder.date.setText(mDayData.get(position).date);
-        mTimesREST = mDayData.get(position).times;
-        mTemperaturesREST = mDayData.get(position).temperatures;
+        holder.date.setText(mDayData.get(position).getDate());
+        mTimesREST = mDayData.get(position).getTimes();
+        mTemperaturesREST = mDayData.get(position).getTemperatures();
 
         if (mTemperaturesREST.length > 0) {
 //            float[] tempRESTfloat = new float[mTemperaturesREST.length];

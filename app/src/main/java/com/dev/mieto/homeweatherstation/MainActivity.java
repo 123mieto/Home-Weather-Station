@@ -32,4 +32,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void clickedPeripheralsControlButton(View view) {
+        Intent intent = new Intent(this, PeripheralsControlActivity.class);
+        startActivity(intent);
+    }
 }

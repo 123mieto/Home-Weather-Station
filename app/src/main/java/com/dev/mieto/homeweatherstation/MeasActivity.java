@@ -18,7 +18,7 @@ public class MeasActivity extends AppCompatActivity {
 
     /*Tag do debugu*/
     public static final String TAG = MeasActivity.class.getSimpleName();
-    public static final String ENDPOINT = "http://192.168.0.87:5000";
+    public static final String ENDPOINT = "http://192.168.0.87:5000/api/v1/";
 
     private RecyclerView recyclerView;
     private Toolbar mToolbar;

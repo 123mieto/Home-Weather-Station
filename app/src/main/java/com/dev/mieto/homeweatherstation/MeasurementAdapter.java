@@ -27,10 +27,10 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
     @Override
     public void onBindViewHolder(MeasurementViewHolder holder, int position) {
-        holder.number.setText(mMeasurementList.get(position).number);
-        holder.temperature.setText(mMeasurementList.get(position).temperature);
-        holder.time.setText(mMeasurementList.get(position).time);
-        holder.date.setText(mMeasurementList.get(position).date);
+        holder.number.setText(mMeasurementList.get(position).getNumber());
+        holder.temperature.setText(mMeasurementList.get(position).getTemperature());
+        holder.time.setText(mMeasurementList.get(position).getTime());
+        holder.date.setText(mMeasurementList.get(position).getDate());
     }
 
     @Override

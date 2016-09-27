@@ -18,7 +18,7 @@ public class DaysActivity extends AppCompatActivity {
 
     /*Tag do debugu*/
     public static final String TAG = DaysActivity.class.getSimpleName();
-    public static final String ENDPOINT = "http://192.168.0.87:5000";
+    public static final String ENDPOINT = "http://192.168.0.87:5000/api/v1/";
 
     RecyclerView recyclerView;
     Toolbar mToolbar;
@@ -44,7 +44,7 @@ public class DaysActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<DayDataResult> call, Response<DayDataResult> response) {
                 Log.d(TAG, "onResponse: OK ");
-                DayViewAdapter measAdapter = new DayViewAdapter(response.body().days);
+                DayViewAdapter measAdapter = new DayViewAdapter(response.body().getDays());
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(DaysActivity.this));
                 recyclerView.setAdapter(measAdapter);

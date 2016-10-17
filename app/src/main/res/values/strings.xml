@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">HomeWeatherStation</string>
+    <string name="days">DAYS</string>
+    <string name="measurements">MEASUREMENTS</string>
+    <string name="controller">CONTROLLER</string>
+    <string name="measurement_time">TIME</string>
+    <string name="measurement_temp">TEMP</string>
+    <string name="measurement_number">NUMBER</string>
+    <string name="measurement_date">DATE</string>
+    <string name="measurement">MEASUREMENT</string>
 </resources>

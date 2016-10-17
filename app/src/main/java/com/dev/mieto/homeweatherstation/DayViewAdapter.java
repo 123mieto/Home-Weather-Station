@@ -12,6 +12,7 @@ import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
 import com.db.chart.view.LineChartView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,13 +20,18 @@ import java.util.List;
  */
 public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewViewHolder> {
 
-    private List<DayData> mDayData;
+    private List<DayData> mDayData = new ArrayList<>();
 
     private long[] mTimesREST;
     private int[] mTemperaturesREST;
 
     public DayViewAdapter(List<DayData> results) {
-        this.mDayData = results;
+        /*Show only those results that collected any data*/
+        for(DayData result : results){
+            if (result.getTemperatures().length > 0){
+                this.mDayData.add(result);
+            }
+        }
     }
 
     private LineSet prepChartDataset() {
@@ -45,13 +51,11 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
         holder.date.setText(mDayData.get(position).getDate());
         mTimesREST = mDayData.get(position).getTimes();
         mTemperaturesREST = mDayData.get(position).getTemperatures();
-
-        if (mTemperaturesREST.length > 0) {
-//            float[] tempRESTfloat = new float[mTemperaturesREST.length];
-//            String[] tempRESTstr = new String[mTemperaturesREST.length];
-            float[] tempRESTfloat = new float[30];
-            String[] tempRESTstr = new String[30];
-            for (int i = 0; i < 30; i++) {
+        int mTempRestLen = mTemperaturesREST.length;
+        if (mTempRestLen > 0) {
+            float[] tempRESTfloat = new float[mTempRestLen];
+            String[] tempRESTstr = new String[mTempRestLen];
+            for (int i = 0; i < mTempRestLen; i++) {
                 tempRESTfloat[i] = (float) mTemperaturesREST[i];
                 tempRESTstr[i] = "";
             }
@@ -64,7 +68,7 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
             holder.measChart.addData(dataset);
 
             holder.measChart.setBorderSpacing(Tools.fromDpToPx(15))
-                    .setAxisBorderValues(18, 30)
+                    .setAxisBorderValues(0, 30)
                     .setYLabels(AxisController.LabelPosition.NONE)
                     .setLabelsColor(Color.parseColor("#6a84c3"))
                     .setXAxis(false)

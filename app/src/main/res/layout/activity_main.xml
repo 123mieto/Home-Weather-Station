@@ -23,7 +23,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:onClick="clickedAllMeasButton"
-            android:text="MEASUREMENTS"
+            android:text="@string/measurements"
             android:textColorHint="@color/primary" />
 
         <Button
@@ -33,7 +33,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:onClick="clickedAllDaysButton"
-            android:text="DAYS"
+            android:text="@string/days"
             android:textColorHint="@color/primary" />
 
         <Button
@@ -43,7 +43,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:onClick="clickedPeripheralsControlButton"
-            android:text="DAYS"
+            android:text="@string/controller"
             android:textColorHint="@color/primary" />
     </LinearLayout>
 </GridLayout>

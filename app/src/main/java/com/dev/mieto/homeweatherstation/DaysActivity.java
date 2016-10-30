@@ -1,18 +1,16 @@
 package com.dev.mieto.homeweatherstation;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.widget.Toast;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DaysActivity extends AppCompatActivity {
 
@@ -20,42 +18,59 @@ public class DaysActivity extends AppCompatActivity {
     public static final String TAG = DaysActivity.class.getSimpleName();
     public static final String ENDPOINT = "http://192.168.0.87:5000/api/v1/";
 
-    RecyclerView recyclerView;
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_days);
-        recyclerView = (RecyclerView) findViewById(R.id.days_recycler_view);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        prepareRetrofit();
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        if (mViewPager != null){
+            setupViewPager(mViewPager);
+        }
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        if (mTabLayout != null){
+            mTabLayout.setupWithViewPager(mViewPager);
+        }
+
     }
 
-    private void prepareRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TempDaysFragment(), "TEMP");
+        adapter.addFragment(new LightDaysFragment(), "LIGHT");
+        viewPager.setAdapter(adapter);
+    }
 
-        RestService restService = retrofit.create(RestService.class);
-        restService.getDays().enqueue(new Callback<DayDataResult>() {
+    class ViewPagerAdapter extends FragmentPagerAdapter{
+        private final List<Fragment> mFragmLst = new ArrayList<>();
+        private final List<String> mFragmTitleLst = new ArrayList<>();
 
-            @Override
-            public void onResponse(Call<DayDataResult> call, Response<DayDataResult> response) {
-                Log.d(TAG, "onResponse: OK ");
-                DayViewAdapter measAdapter = new DayViewAdapter(response.body().getDays());
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(DaysActivity.this));
-                recyclerView.setAdapter(measAdapter);
-            }
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-            @Override
-            public void onFailure(Call<DayDataResult> call, Throwable t) {
-                Log.e(TAG, "onFailure: NI MA NETU " + t.getMessage(), t);
-                Toast.makeText(DaysActivity.this, "Error downloading", Toast.LENGTH_LONG).show();
-            }
-        });
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmLst.get(position);
+        }
 
+        @Override
+        public int getCount() {
+            return mFragmLst.size();
+        }
+
+        public void addFragment(Fragment fragment, String title){
+            mFragmLst.add(fragment);
+            mFragmTitleLst.add(title);
+        }
+
+        public CharSequence getPageTitle(int position){
+            return mFragmTitleLst.get(position);
+        }
     }
 }

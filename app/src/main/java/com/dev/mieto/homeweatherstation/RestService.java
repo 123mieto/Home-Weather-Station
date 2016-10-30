@@ -14,7 +14,10 @@ public interface RestService {
     Call<MeasurementResult> getResults();
 
     @GET("temperature/days")
-    Call<DayDataResult> getDays();
+    Call<DayDataTempResult> getDaysTemp();
+
+    @GET("light/days")
+    Call<DayDataLightResult> getDaysLight();
 
     @GET("controller/connected-hardware")
     Call<ConnHwResult> getConnHardware();

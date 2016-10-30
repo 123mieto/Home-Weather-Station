@@ -39,7 +39,7 @@
         android:translationZ="0dp">
 
         <com.db.chart.view.LineChartView xmlns:chart="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/day_temp_chart"
+            android:id="@+id/day_chart"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="#F4F4F4"

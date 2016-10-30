@@ -3,7 +3,7 @@ package com.dev.mieto.homeweatherstation;
 /**
  * Created by Mieto on 2016-09-11.
  */
-public class DayData {
+public class DayDataTemp {
 
     /*Those variables should correspond to data returned by REST API */
     private String number;

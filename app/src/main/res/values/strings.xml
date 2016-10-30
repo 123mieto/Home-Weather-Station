@@ -8,4 +8,6 @@
     <string name="measurement_number">NUMBER</string>
     <string name="measurement_date">DATE</string>
     <string name="measurement">MEASUREMENT</string>
+    <string name="esp8266_led">ESP8266 LED</string>
+    <string name="rpi_led">LED</string>
 </resources>

@@ -8,7 +8,13 @@ import java.util.List;
  */
 public class MeasurementResult {
 
-    List<Measurement> readings = new ArrayList<>();
+    private List<Measurement> readings = new ArrayList<>();
 
+    public List<Measurement> getReadings() {
+        return readings;
+    }
 
+    public void setReadings(List<Measurement> readings) {
+        this.readings = readings;
+    }
 }

@@ -6,7 +6,7 @@
     android:layout_margin="18dp"
     android:background="@drawable/measurement_item_boarder"
     android:padding="18dp"
-    tools:background="#F4F4F4">
+    android:theme="@style/AppTheme">
 
     <RelativeLayout
         android:id="@+id/meas_item_lay1"
@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="@string/measurement"
             android:textAllCaps="true"
-            android:textColor="@color/primary_text"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -32,7 +31,6 @@
             android:layout_alignParentEnd="true"
             android:text="3"
             android:textAllCaps="true"
-            android:textColor="@color/primary_text"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -57,15 +55,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:text="@string/measurement_time"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/secondary_text" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/meas_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:textColor="@color/secondary_text"
                 tools:text="10" />
         </LinearLayout>
 
@@ -80,14 +76,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:text="@string/measurement_temp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/secondary_text" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/meas_item_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
                 tools:text="23" />
         </LinearLayout>
 
@@ -113,14 +107,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:text="@string/measurement_date"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/secondary_text" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/meas_item_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
                 tools:text="10.10.16" />
         </LinearLayout>
     </RelativeLayout>

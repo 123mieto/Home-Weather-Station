@@ -1,4 +1,4 @@
-package com.dev.mieto.homeweatherstation;
+package com.dev.mieto.homeweatherstation.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.dev.mieto.homeweatherstation.MeasurementAdapter;
+import com.dev.mieto.homeweatherstation.MeasurementResult;
+import com.dev.mieto.homeweatherstation.R;
+import com.dev.mieto.homeweatherstation.RestService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,10 +34,26 @@ public class MeasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meas);
         recyclerView = (RecyclerView) findViewById(R.id.star_recycler_view);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        setToolbar();
         prepareRetrofit();
 
+    }
+
+    private void setToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void prepareRetrofit() {
@@ -45,7 +67,7 @@ public class MeasActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MeasurementResult> call, Response<MeasurementResult> response) {
                 Log.d(TAG, "onResponse: OK ");
-                MeasurementAdapter measAdapter = new MeasurementAdapter(response.body().readings);
+                MeasurementAdapter measAdapter = new MeasurementAdapter(response.body().getReadings());
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MeasActivity.this));
                 recyclerView.setAdapter(measAdapter);

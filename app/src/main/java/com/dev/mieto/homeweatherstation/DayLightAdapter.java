@@ -1,6 +1,6 @@
 package com.dev.mieto.homeweatherstation;
 
-import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
+import com.db.chart.view.ChartView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,20 +57,32 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
                 tempRESTfloat[i] = (float) mLightsREST[i];
                 tempRESTstr[i] = "";
             }
+            //prepare colors
+            int dotColor = holder.measChart.getResources().getColor(R.color.accent);
+            int gridLabelColor = holder.measChart.getResources().getColor(R.color.secondary_text);
+
+            Paint gridPaint = new Paint();
+            gridPaint.setColor(gridLabelColor);
+            gridPaint.setStyle(Paint.Style.STROKE);
+            gridPaint.setAntiAlias(true);
+            gridPaint.setStrokeWidth(1);
 
             LineSet dataset = new LineSet(tempRESTstr, tempRESTfloat);
-            dataset.setColor(Color.parseColor("#758cbb"))
-                    .setDotsColor(Color.parseColor("#758cbb"))
+            dataset.setColor(dotColor)
+                    .setDotsColor(dotColor)
                     .setThickness(4)
+                    .setDotsRadius(6)
                     .setDashed(new float[]{10f, 10f});
             holder.measChart.addData(dataset);
 
             holder.measChart.setBorderSpacing(Tools.fromDpToPx(15))
-                    .setAxisBorderValues(0, 1025)
+                    .setStep(1)
+                    .setGrid(ChartView.GridType.FULL, 4, 12, gridPaint)
+                    .setAxisBorderValues(-20, 1025)
                     .setYLabels(AxisController.LabelPosition.NONE)
-                    .setLabelsColor(Color.parseColor("#6a84c3"))
-                    .setXAxis(false)
-                    .setYAxis(false);
+                    .setLabelsColor(gridLabelColor)
+                    .setXAxis(true)
+                    .setYAxis(true);
 
             holder.measChart.show();
 

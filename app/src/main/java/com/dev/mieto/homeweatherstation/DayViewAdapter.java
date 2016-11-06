@@ -1,6 +1,6 @@
 package com.dev.mieto.homeweatherstation;
 
-import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
+import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
 
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ import java.util.List;
  */
 public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewViewHolder> {
 
+    //TODO: dodac taki opis na dole wykresu
+    private final String[] xLabelTime = {"0", "2", "4", "6", "8", "10", "12", "14", "16", "18","20","22","24"};
+
     private List<DayDataTemp> mDayData = new ArrayList<>();
 
     private long[] mTimesREST;
@@ -27,8 +31,8 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
     public DayViewAdapter(List<DayDataTemp> results) {
         /*Show only those results that collected any data*/
-        for(DayDataTemp result : results){
-            if (result.getTemperatures().length > 0){
+        for (DayDataTemp result : results) {
+            if (result.getTemperatures().length > 0) {
                 this.mDayData.add(result);
             }
         }
@@ -58,20 +62,33 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
                 tempRESTfloat[i] = (float) mTemperaturesREST[i];
                 tempRESTstr[i] = "";
             }
+            //prepare colors
+            int dotColor = holder.measChart.getResources().getColor(R.color.accent);
+            int gridLabelColor = holder.measChart.getResources().getColor(R.color.secondary_text);
+
+            Paint gridPaint = new Paint();
+            gridPaint.setColor(gridLabelColor);
+            gridPaint.setStyle(Paint.Style.STROKE);
+            gridPaint.setAntiAlias(true);
+            gridPaint.setStrokeWidth(1);
 
             LineSet dataset = new LineSet(tempRESTstr, tempRESTfloat);
-            dataset.setColor(Color.parseColor("#758cbb"))
-                    .setDotsColor(Color.parseColor("#758cbb"))
+            dataset.setColor(dotColor)
+                    .setDotsColor(dotColor)
                     .setThickness(4)
+                    .setDotsRadius(6)
                     .setDashed(new float[]{10f, 10f});
             holder.measChart.addData(dataset);
 
-            holder.measChart.setBorderSpacing(Tools.fromDpToPx(15))
-                    .setAxisBorderValues(0, 30)
+            holder.measChart.setBorderSpacing(Tools.fromDpToPx(0))
+                    .setStep(1)
+                    .setGrid(ChartView.GridType.FULL, 4, 12, gridPaint)
+                    .setAxisBorderValues(-5, 30)
                     .setYLabels(AxisController.LabelPosition.NONE)
-                    .setLabelsColor(Color.parseColor("#6a84c3"))
-                    .setXAxis(false)
-                    .setYAxis(false);
+                    .setLabelsColor(gridLabelColor)
+                    .setAxisColor(gridLabelColor)
+                    .setXAxis(true)
+                    .setYAxis(true);
 
             holder.measChart.show();
 

@@ -1,4 +1,4 @@
-package com.dev.mieto.homeweatherstation;
+package com.dev.mieto.homeweatherstation.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,6 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+
+import com.dev.mieto.homeweatherstation.R;
+import com.dev.mieto.homeweatherstation.fragments.LightDaysFragment;
+import com.dev.mieto.homeweatherstation.fragments.TempDaysFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +31,9 @@ public class DaysActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_days);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+
+        setToolbar();
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         if (mViewPager != null){
             setupViewPager(mViewPager);
@@ -37,6 +43,23 @@ public class DaysActivity extends AppCompatActivity {
             mTabLayout.setupWithViewPager(mViewPager);
         }
 
+    }
+
+    private void setToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupViewPager(ViewPager viewPager) {

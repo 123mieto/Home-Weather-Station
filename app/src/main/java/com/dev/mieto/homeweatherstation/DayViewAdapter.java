@@ -87,7 +87,8 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
                     .setYLabels(AxisController.LabelPosition.NONE)
                     .setLabelsColor(gridLabelColor)
                     .setAxisColor(gridLabelColor)
-                    .setXAxis(true)
+                    .setAxisThickness(1)
+                    .setXAxis(false)
                     .setYAxis(true);
 
             holder.measChart.show();

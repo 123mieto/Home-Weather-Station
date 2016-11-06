@@ -75,13 +75,15 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
                     .setDashed(new float[]{10f, 10f});
             holder.measChart.addData(dataset);
 
-            holder.measChart.setBorderSpacing(Tools.fromDpToPx(15))
+            holder.measChart.setBorderSpacing(Tools.fromDpToPx(0))
                     .setStep(1)
                     .setGrid(ChartView.GridType.FULL, 4, 12, gridPaint)
                     .setAxisBorderValues(-20, 1025)
                     .setYLabels(AxisController.LabelPosition.NONE)
                     .setLabelsColor(gridLabelColor)
-                    .setXAxis(true)
+                    .setAxisColor(gridLabelColor)
+                    .setAxisThickness(1)
+                    .setXAxis(false)
                     .setYAxis(true);
 
             holder.measChart.show();

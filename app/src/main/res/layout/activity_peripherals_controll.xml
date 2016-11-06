@@ -3,13 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PeripheralsControlActivity">
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/AppTheme"
+    tools:context=".activities.PeripheralsControlActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/MyToolbarStyle"
+        appcompat:title="@string/peripherals_control_title"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:id="@+id/led1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -56,4 +66,6 @@
             android:onClick="onDirectESP8266LedSwitch"
             android:text="ON " />
     </RelativeLayout>
+
+
 </RelativeLayout>

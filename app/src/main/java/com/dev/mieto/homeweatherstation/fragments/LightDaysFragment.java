@@ -1,7 +1,8 @@
-package com.dev.mieto.homeweatherstation;
+package com.dev.mieto.homeweatherstation.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.dev.mieto.homeweatherstation.DayDataLightResult;
+import com.dev.mieto.homeweatherstation.DayLightAdapter;
+import com.dev.mieto.homeweatherstation.R;
+import com.dev.mieto.homeweatherstation.RestService;
+import com.dev.mieto.homeweatherstation.activities.DaysActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,28 +27,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Mieto on 2016-10-30.
  */
-public class TempDaysFragment extends android.support.v4.app.Fragment {
-
-    /*Tag do debugu*/
+public class LightDaysFragment extends Fragment {
     public static final String TAG = DaysActivity.class.getSimpleName();
     private RecyclerView recyclerView;
 
-    public TempDaysFragment(){}
+    public LightDaysFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prepareRetrofit();
-
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.fragment_days_temp,container,false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.days_recycler_view);
-        return layout;
     }
 
     private void prepareRetrofit() {
@@ -50,23 +45,34 @@ public class TempDaysFragment extends android.support.v4.app.Fragment {
                 .build();
 
         RestService restService = retrofit.create(RestService.class);
-        restService.getDaysTemp().enqueue(new Callback<DayDataTempResult>() {
-
+        restService.getDaysLight().enqueue(new Callback<DayDataLightResult>() {
             @Override
-            public void onResponse(Call<DayDataTempResult> call, Response<DayDataTempResult> response) {
+            public void onResponse(Call<DayDataLightResult> call, Response<DayDataLightResult> response) {
                 Log.d(TAG, "onResponse: OK ");
-                DayViewAdapter measAdapter = new DayViewAdapter(response.body().getDays());
+                DayLightAdapter measAdapter = new DayLightAdapter(response.body().getDays());
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(measAdapter);
             }
 
             @Override
-            public void onFailure(Call<DayDataTempResult> call, Throwable t) {
+            public void onFailure(Call<DayDataLightResult> call, Throwable t) {
                 Log.e(TAG, "onFailure: NI MA NETU " + t.getMessage(), t);
                 Toast.makeText(getContext(), "Error downloading", Toast.LENGTH_LONG).show();
             }
         });
 
     }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.fragment_days_light, container, false);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.light_recycler_view);
+        return layout;
+    }
+
+
 }
+

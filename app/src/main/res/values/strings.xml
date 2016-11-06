@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">HomeWeatherStation</string>
-    <string name="days">DAYS</string>
+    <string name="days">CHARTS</string>
     <string name="measurements">MEASUREMENTS</string>
     <string name="controller">CONTROLLER</string>
     <string name="measurement_time">TIME</string>
@@ -10,4 +10,7 @@
     <string name="measurement">MEASUREMENT</string>
     <string name="esp8266_led">ESP8266 LED</string>
     <string name="rpi_led">LED</string>
+    <string name="measurement_last_meas_title">Latest measurements</string>
+    <string name="peripherals_control_title">Control outputs</string>
+    <string name="days_charts_title">Charts</string>
 </resources>

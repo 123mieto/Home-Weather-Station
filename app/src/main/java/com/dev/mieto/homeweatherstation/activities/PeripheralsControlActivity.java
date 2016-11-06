@@ -1,12 +1,20 @@
-package com.dev.mieto.homeweatherstation;
+package com.dev.mieto.homeweatherstation.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dev.mieto.homeweatherstation.ConnHwResult;
+import com.dev.mieto.homeweatherstation.LedResult;
+import com.dev.mieto.homeweatherstation.LogResult;
+import com.dev.mieto.homeweatherstation.R;
+import com.dev.mieto.homeweatherstation.RestService;
 
 import java.io.IOException;
 
@@ -28,6 +36,7 @@ public class PeripheralsControlActivity extends AppCompatActivity {
     private TextView mTvESPLed;
     private Switch mSwLed;
     private Switch mESPLEd;
+    private Toolbar mToolbar;
 
     private int ledNumber;
     private long time, duration, deviceNumber;
@@ -56,8 +65,27 @@ public class PeripheralsControlActivity extends AppCompatActivity {
         duration = 999;
         deviceNumber = 1;
 
+        setToolbar();
+
         prepareRetrofit();
         prepareOkHttpClient();
+    }
+
+    private void setToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void prepareOkHttpClient() {

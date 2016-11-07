@@ -10,6 +10,8 @@ import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
 import com.db.chart.view.ChartView;
+import com.db.chart.view.animation.Animation;
+import com.db.chart.view.animation.easing.BounceEase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,16 +64,15 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
             float[] tempRESTfloat = new float[MEASURES_NUMBER];
             String[] tempRESTstr = new String[MEASURES_NUMBER];
             for (int i = 0; i < MEASURES_NUMBER; i++) {
-                if ((i * INCREMENT_NUMBER) >= mLightsREST.length){
+                if ((i * INCREMENT_NUMBER) >= mLightsREST.length) {
                     tempRESTfloat[i] = (float) 0;
-                }else{
+                } else {
                     tempRESTfloat[i] = (float) mLightsREST[i * INCREMENT_NUMBER];
                 }
 
-                if (i % 4 == 0){
+                if (i % 4 == 0) {
                     tempRESTstr[i] = timeHolder.toString();
-                }
-                else{
+                } else {
                     tempRESTstr[i] = "";
                 }
                 timeHolder.increment();
@@ -105,7 +106,8 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
                     .setXAxis(false)
                     .setYAxis(true);
 
-            holder.measChart.show();
+            Animation anim = new Animation().setDuration(1500).setEasing(new BounceEase()).setStartPoint(-1, 0);
+            holder.measChart.show(anim);
 
         }
     }
@@ -114,7 +116,6 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
     public int getItemCount() {
         return mDayData.size();
     }
-
 
 
 }

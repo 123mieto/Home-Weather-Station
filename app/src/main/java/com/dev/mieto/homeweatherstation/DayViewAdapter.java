@@ -12,6 +12,8 @@ import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
 import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
+import com.db.chart.view.animation.Animation;
+import com.db.chart.view.animation.easing.BounceEase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,6 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
     /* 144 measurement / INCREMENT NUMBER = MEASURES NUMBER */
     private static final int MEASURES_NUMBER = 48;
-
     private static final int INCREMENT_NUMBER = 3;
 
     private List<DayDataTemp> mDayData = new ArrayList<>();
@@ -53,15 +54,23 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
     @Override
     public void onBindViewHolder(DayViewViewHolder holder, int position) {
+
+
         TimeHolder timeHolder = new TimeHolder();
+        final LineChartView mChart;
+
+
+        final float[] tempRESTfloat = new float[MEASURES_NUMBER];
+        final String[] tempRESTstr = new String[MEASURES_NUMBER];
+
+        mChart = holder.measChart;
 
         holder.date.setText(mDayData.get(position).getDate());
         mTimesREST = mDayData.get(position).getTimes();
         mTemperaturesREST = mDayData.get(position).getTemperatures();
         int mTempRestLen = mTemperaturesREST.length;
         if (mTempRestLen > 0) {
-            float[] tempRESTfloat = new float[MEASURES_NUMBER];
-            String[] tempRESTstr = new String[MEASURES_NUMBER];
+
             for (int i = 0; i < MEASURES_NUMBER; i++) {
                 if (i * INCREMENT_NUMBER >= mTempRestLen) {
                     tempRESTfloat[i] = (float) 0;
@@ -69,18 +78,17 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
                     tempRESTfloat[i] = (float) mTemperaturesREST[i * INCREMENT_NUMBER];
                 }
 
-                if (i % 4 == 0){
+                if (i % 4 == 0) {
                     tempRESTstr[i] = timeHolder.toString();
-                }
-                else{
+                } else {
                     tempRESTstr[i] = "";
                 }
                 timeHolder.increment();
 
             }
             //prepare colors
-            int dotColor = holder.measChart.getResources().getColor(R.color.accent);
-            int gridLabelColor = holder.measChart.getResources().getColor(R.color.secondary_text);
+            int dotColor = mChart.getResources().getColor(R.color.accent);
+            int gridLabelColor = mChart.getResources().getColor(R.color.secondary_text);
 
             Paint gridPaint = new Paint();
             gridPaint.setColor(gridLabelColor);
@@ -94,9 +102,9 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
                     .setThickness(4)
                     .setDotsRadius(6)
                     .setDashed(new float[]{10f, 10f});
-            holder.measChart.addData(dataset);
+            mChart.addData(dataset);
 
-            holder.measChart.setBorderSpacing(Tools.fromDpToPx(0))
+            mChart.setBorderSpacing(Tools.fromDpToPx(0))
                     .setStep(1)
                     .setGrid(ChartView.GridType.FULL, 3, 12, gridPaint)
                     .setAxisBorderValues(0, 30)
@@ -107,7 +115,8 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
                     .setXAxis(false)
                     .setYAxis(true);
 
-            holder.measChart.show();
+            Animation anim = new Animation().setDuration(1500).setEasing(new BounceEase()).setStartPoint(-1,0);
+            mChart.show(anim);
 
         }
 

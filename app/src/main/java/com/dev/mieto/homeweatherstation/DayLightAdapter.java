@@ -19,10 +19,16 @@ import java.util.List;
  */
 public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewViewHolder> {
 
+    /* 144 measurement / INCREMENT NUMBER = MEASURES NUMBER */
+    private static final int MEASURES_NUMBER = 48;
+
+    private static final int INCREMENT_NUMBER = 3;
+
     private List<DayDataLight> mDayData = new ArrayList<>();
 
     private long[] mTimesREST;
     private int[] mLightsREST;
+
 
     public DayLightAdapter(List<DayDataLight> results) {
         /*Show only those results that collected any data*/
@@ -46,16 +52,29 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
 
     @Override
     public void onBindViewHolder(DayViewAdapter.DayViewViewHolder holder, int position) {
+        TimeHolder timeHolder = new TimeHolder();
+
         holder.date.setText(mDayData.get(position).getDate());
         mTimesREST = mDayData.get(position).getTimes();
         mLightsREST = mDayData.get(position).getLight();
         int mTempRestLen = mLightsREST.length;
         if (mTempRestLen > 0) {
-            float[] tempRESTfloat = new float[mTempRestLen];
-            String[] tempRESTstr = new String[mTempRestLen];
-            for (int i = 0; i < mTempRestLen; i++) {
-                tempRESTfloat[i] = (float) mLightsREST[i];
-                tempRESTstr[i] = "";
+            float[] tempRESTfloat = new float[MEASURES_NUMBER];
+            String[] tempRESTstr = new String[MEASURES_NUMBER];
+            for (int i = 0; i < MEASURES_NUMBER; i++) {
+                if ((i * INCREMENT_NUMBER) >= mLightsREST.length){
+                    tempRESTfloat[i] = (float) 0;
+                }else{
+                    tempRESTfloat[i] = (float) mLightsREST[i * INCREMENT_NUMBER];
+                }
+
+                if (i % 4 == 0){
+                    tempRESTstr[i] = timeHolder.toString();
+                }
+                else{
+                    tempRESTstr[i] = "";
+                }
+                timeHolder.increment();
             }
             //prepare colors
             int dotColor = holder.measChart.getResources().getColor(R.color.accent);
@@ -95,4 +114,7 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
     public int getItemCount() {
         return mDayData.size();
     }
+
+
+
 }

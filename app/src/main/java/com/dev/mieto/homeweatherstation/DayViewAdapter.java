@@ -21,8 +21,10 @@ import java.util.List;
  */
 public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewViewHolder> {
 
-    //TODO: dodac taki opis na dole wykresu
-    private final String[] xLabelTime = {"0", "2", "4", "6", "8", "10", "12", "14", "16", "18","20","22","24"};
+    /* 144 measurement / INCREMENT NUMBER = MEASURES NUMBER */
+    private static final int MEASURES_NUMBER = 48;
+
+    private static final int INCREMENT_NUMBER = 3;
 
     private List<DayDataTemp> mDayData = new ArrayList<>();
 
@@ -51,16 +53,30 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
     @Override
     public void onBindViewHolder(DayViewViewHolder holder, int position) {
+        TimeHolder timeHolder = new TimeHolder();
+
         holder.date.setText(mDayData.get(position).getDate());
         mTimesREST = mDayData.get(position).getTimes();
         mTemperaturesREST = mDayData.get(position).getTemperatures();
         int mTempRestLen = mTemperaturesREST.length;
         if (mTempRestLen > 0) {
-            float[] tempRESTfloat = new float[mTempRestLen];
-            String[] tempRESTstr = new String[mTempRestLen];
-            for (int i = 0; i < mTempRestLen; i++) {
-                tempRESTfloat[i] = (float) mTemperaturesREST[i];
-                tempRESTstr[i] = "";
+            float[] tempRESTfloat = new float[MEASURES_NUMBER];
+            String[] tempRESTstr = new String[MEASURES_NUMBER];
+            for (int i = 0; i < MEASURES_NUMBER; i++) {
+                if (i * INCREMENT_NUMBER >= mTempRestLen) {
+                    tempRESTfloat[i] = (float) 0;
+                } else {
+                    tempRESTfloat[i] = (float) mTemperaturesREST[i * INCREMENT_NUMBER];
+                }
+
+                if (i % 4 == 0){
+                    tempRESTstr[i] = timeHolder.toString();
+                }
+                else{
+                    tempRESTstr[i] = "";
+                }
+                timeHolder.increment();
+
             }
             //prepare colors
             int dotColor = holder.measChart.getResources().getColor(R.color.accent);
@@ -82,8 +98,8 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
             holder.measChart.setBorderSpacing(Tools.fromDpToPx(0))
                     .setStep(1)
-                    .setGrid(ChartView.GridType.FULL, 4, 12, gridPaint)
-                    .setAxisBorderValues(-5, 30)
+                    .setGrid(ChartView.GridType.FULL, 3, 12, gridPaint)
+                    .setAxisBorderValues(0, 30)
                     .setYLabels(AxisController.LabelPosition.NONE)
                     .setLabelsColor(gridLabelColor)
                     .setAxisColor(gridLabelColor)

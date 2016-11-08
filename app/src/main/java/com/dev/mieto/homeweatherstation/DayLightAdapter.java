@@ -55,6 +55,7 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
     @Override
     public void onBindViewHolder(DayViewAdapter.DayViewViewHolder holder, int position) {
         TimeHolder timeHolder = new TimeHolder();
+        long hour,minutes;
 
         holder.date.setText(mDayData.get(position).getDate());
         mTimesREST = mDayData.get(position).getTimes();
@@ -63,13 +64,37 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
         if (mTempRestLen > 0) {
             float[] tempRESTfloat = new float[MEASURES_NUMBER];
             String[] tempRESTstr = new String[MEASURES_NUMBER];
+
+            int elem = 0;
             for (int i = 0; i < MEASURES_NUMBER; i++) {
-                if ((i * INCREMENT_NUMBER) >= mLightsREST.length) {
+                if (elem * INCREMENT_NUMBER < mTimesREST.length) {
+                    hour = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60 * 60)) % 24;
+                    minutes = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60)) % 60;
+                    int delta = (int) (hour * 2 + ((minutes > 30) ? 1 : 0));
+                    if (delta > i){
+                        if (delta >= MEASURES_NUMBER) {
+                            break;
+                        }else{
+                            for(int j = i; j < delta; j++){
+                                tempRESTfloat[j] = (float) 0;
+
+                            }
+                            i = delta;
+                        }
+                    }
+
+
+                }
+                if ((elem * INCREMENT_NUMBER) >= mLightsREST.length){
                     tempRESTfloat[i] = (float) 0;
-                } else {
-                    tempRESTfloat[i] = (float) mLightsREST[i * INCREMENT_NUMBER];
+                }else{
+                    tempRESTfloat[i] = (float) mLightsREST[elem * INCREMENT_NUMBER];
                 }
 
+                elem++;
+            }
+
+            for (int i = 0; i < MEASURES_NUMBER; i++) {
                 if (i % 4 == 0) {
                     tempRESTstr[i] = timeHolder.toString();
                 } else {

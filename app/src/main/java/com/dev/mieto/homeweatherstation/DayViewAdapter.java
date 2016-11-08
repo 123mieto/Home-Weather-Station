@@ -54,9 +54,8 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
     @Override
     public void onBindViewHolder(DayViewViewHolder holder, int position) {
-
-
         TimeHolder timeHolder = new TimeHolder();
+        long hour, minutes;
         final LineChartView mChart;
 
 
@@ -71,21 +70,43 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
         int mTempRestLen = mTemperaturesREST.length;
         if (mTempRestLen > 0) {
 
-            for (int i = 0; i < MEASURES_NUMBER; i++) {
-                if (i * INCREMENT_NUMBER >= mTempRestLen) {
-                    tempRESTfloat[i] = (float) 0;
-                } else {
-                    tempRESTfloat[i] = (float) mTemperaturesREST[i * INCREMENT_NUMBER];
+        int elem = 0;
+        for (int i = 0; i < MEASURES_NUMBER; i++) {
+            if (elem * INCREMENT_NUMBER < mTimesREST.length) {
+                hour = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60 * 60)) % 24;
+                minutes = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60)) % 60;
+                int delta = (int) (hour * 2 + ((minutes > 30) ? 1 : 0));
+                if (delta > i){
+                    if (delta >= MEASURES_NUMBER) {
+                        break;
+                    }else{
+                        for(int j = i; j < delta; j++){
+                            tempRESTfloat[j] = (float) 0;
+
+                        }
+                        i = delta;
+                    }
                 }
 
-                if (i % 4 == 0) {
-                    tempRESTstr[i] = timeHolder.toString();
-                } else {
-                    tempRESTstr[i] = "";
-                }
-                timeHolder.increment();
 
             }
+            if ((elem * INCREMENT_NUMBER) >= mTemperaturesREST.length){
+                tempRESTfloat[i] = (float) 0;
+            }else{
+                tempRESTfloat[i] = (float) mTemperaturesREST[elem * INCREMENT_NUMBER];
+            }
+
+            elem++;
+        }
+
+        for (int i = 0; i < MEASURES_NUMBER; i++) {
+            if (i % 4 == 0) {
+                tempRESTstr[i] = timeHolder.toString();
+            } else {
+                tempRESTstr[i] = "";
+            }
+            timeHolder.increment();
+        }
             //prepare colors
             int dotColor = mChart.getResources().getColor(R.color.accent);
             int gridLabelColor = mChart.getResources().getColor(R.color.secondary_text);
@@ -115,7 +136,7 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
                     .setXAxis(false)
                     .setYAxis(true);
 
-            Animation anim = new Animation().setDuration(1500).setEasing(new BounceEase()).setStartPoint(-1,0);
+            Animation anim = new Animation().setDuration(1500).setEasing(new BounceEase()).setStartPoint(-1, 0);
             mChart.show(anim);
 
         }

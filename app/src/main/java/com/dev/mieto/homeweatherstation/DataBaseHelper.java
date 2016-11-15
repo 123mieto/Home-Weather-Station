@@ -12,7 +12,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Created by Mieto on 2016-11-08.
+ * Helpful methods used to communicate with local database.
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -84,14 +84,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         if (!isDate) {
-            StringBuffer valBuff = new StringBuffer();
+            StringBuilder valBuff = new StringBuilder();
             for (int val : values) {
                 valBuff.append(val);
                 valBuff.append(" ");
             }
             contentValues.put(TEMPERATURES_VAL, valBuff.toString());
 
-            StringBuffer timesBuff = new StringBuffer();
+            StringBuilder timesBuff = new StringBuilder();
             for (long time : times) {
                 timesBuff.append(time);
                 timesBuff.append(" ");
@@ -103,6 +103,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             result = -1;
         }
 
+        cr.close();
         return result != -1;
     }
 
@@ -118,14 +119,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         if (!isDate) {
-            StringBuffer valBuff = new StringBuffer();
+            StringBuilder valBuff = new StringBuilder();
             for (int val : values) {
                 valBuff.append(val);
                 valBuff.append(" ");
             }
             contentValues.put(LIGHT_VAL, valBuff.toString());
 
-            StringBuffer timesBuff = new StringBuffer();
+            StringBuilder timesBuff = new StringBuilder();
             for (long time : times) {
                 timesBuff.append(time);
                 timesBuff.append(" ");
@@ -137,6 +138,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             result = -1;
         }
 
+        cr.close();
         return result != -1;
     }
 
@@ -187,6 +189,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 elems.add(ddLtemp);
             }
         }
+
+        cr.close();
         return elems;
     }
 
@@ -237,6 +241,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 elems.add(ddLtemp);
             }
         }
+
+        cr.close();
         return elems;
     }
 }

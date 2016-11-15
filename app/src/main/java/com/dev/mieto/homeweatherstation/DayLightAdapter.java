@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
-import com.db.chart.view.ChartView;
+import com.db.chart.view.LineChartView;
 import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.BounceEase;
 
@@ -28,6 +28,8 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
 
     private List<DayDataLight> mDayData = new ArrayList<>();
 
+    private Paint gridPaint = new Paint();
+    private LineChartView mChart;
     private long[] mTimesREST;
     private int[] mLightsREST;
 
@@ -57,6 +59,14 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
         TimeHolder timeHolder = new TimeHolder();
         long hour,minutes;
 
+        mChart = holder.measChart;
+
+        /*If reloading check if one dataset*/
+        if(mChart.getData().size() != 0){
+            /*removing the remaining data*/
+            mChart.getData().clear();
+        }
+
         holder.date.setText(mDayData.get(position).getDate());
         mTimesREST = mDayData.get(position).getTimes();
         mLightsREST = mDayData.get(position).getLight();
@@ -82,8 +92,6 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
                             i = delta;
                         }
                     }
-
-
                 }
                 if ((elem * INCREMENT_NUMBER) >= mLightsREST.length){
                     tempRESTfloat[i] = (float) 0;
@@ -103,14 +111,14 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
                 timeHolder.increment();
             }
             //prepare colors
-            int dotColor = holder.measChart.getResources().getColor(R.color.accent);
-            int gridLabelColor = holder.measChart.getResources().getColor(R.color.secondary_text);
+            int dotColor = mChart.getResources().getColor(R.color.accent);
+            int gridLabelColor = mChart.getResources().getColor(R.color.secondary_text);
 
-            Paint gridPaint = new Paint();
             gridPaint.setColor(gridLabelColor);
             gridPaint.setStyle(Paint.Style.STROKE);
             gridPaint.setAntiAlias(true);
             gridPaint.setStrokeWidth(1);
+
 
             LineSet dataset = new LineSet(tempRESTstr, tempRESTfloat);
             dataset.setColor(dotColor)
@@ -118,21 +126,21 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
                     .setThickness(4)
                     .setDotsRadius(6)
                     .setDashed(new float[]{10f, 10f});
-            holder.measChart.addData(dataset);
+            mChart.addData(dataset);
 
-            holder.measChart.setBorderSpacing(Tools.fromDpToPx(0))
-                    .setStep(1)
-                    .setGrid(ChartView.GridType.FULL, 4, 12, gridPaint)
+            mChart.setBorderSpacing(Tools.fromDpToPx(0))
+                    //Bug #98
+                    //.setGrid(ChartView.GridType.FULL, 4, 12, gridPaint)
                     .setAxisBorderValues(-20, 1025)
                     .setYLabels(AxisController.LabelPosition.NONE)
                     .setLabelsColor(gridLabelColor)
                     .setAxisColor(gridLabelColor)
                     .setAxisThickness(1)
-                    .setXAxis(false)
-                    .setYAxis(true);
+                    .setXAxis(true)
+                    .setYAxis(false);
 
             Animation anim = new Animation().setDuration(1500).setEasing(new BounceEase()).setStartPoint(-1, 0);
-            holder.measChart.show(anim);
+            mChart.show(anim);
 
         }
     }

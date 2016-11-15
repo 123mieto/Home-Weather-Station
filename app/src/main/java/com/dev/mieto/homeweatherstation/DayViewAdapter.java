@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
-import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
 import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.BounceEase;
@@ -29,6 +28,8 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
     private List<DayDataTemp> mDayData = new ArrayList<>();
 
+    private Paint gridPaint = new Paint();
+    private LineChartView mChart;
     private long[] mTimesREST;
     private int[] mTemperaturesREST;
 
@@ -56,7 +57,7 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
     public void onBindViewHolder(DayViewViewHolder holder, int position) {
         TimeHolder timeHolder = new TimeHolder();
         long hour, minutes;
-        final LineChartView mChart;
+
 
 
         final float[] tempRESTfloat = new float[MEASURES_NUMBER];
@@ -64,54 +65,59 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
         mChart = holder.measChart;
 
+        /*If reloading check if one dataset*/
+        if(mChart.getData().size() != 0){
+            /*removing the remaining data*/
+            mChart.getData().clear();
+        }
+
         holder.date.setText(mDayData.get(position).getDate());
         mTimesREST = mDayData.get(position).getTimes();
         mTemperaturesREST = mDayData.get(position).getTemperatures();
         int mTempRestLen = mTemperaturesREST.length;
         if (mTempRestLen > 0) {
 
-        int elem = 0;
-        for (int i = 0; i < MEASURES_NUMBER; i++) {
-            if (elem * INCREMENT_NUMBER < mTimesREST.length) {
-                hour = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60 * 60)) % 24;
-                minutes = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60)) % 60;
-                int delta = (int) (hour * 2 + ((minutes > 30) ? 1 : 0));
-                if (delta > i){
-                    if (delta >= MEASURES_NUMBER) {
-                        break;
-                    }else{
-                        for(int j = i; j < delta; j++){
-                            tempRESTfloat[j] = (float) 0;
+            int elem = 0;
+            for (int i = 0; i < MEASURES_NUMBER; i++) {
+                if (elem * INCREMENT_NUMBER < mTimesREST.length) {
+                    hour = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60 * 60)) % 24;
+                    minutes = (mTimesREST[elem * INCREMENT_NUMBER] / (1000 * 60)) % 60;
+                    int delta = (int) (hour * 2 + ((minutes > 30) ? 1 : 0));
+                    if (delta > i) {
+                        if (delta >= MEASURES_NUMBER) {
+                            break;
+                        } else {
+                            for (int j = i; j < delta; j++) {
+                                tempRESTfloat[j] = (float) 0;
 
+                            }
+                            i = delta;
                         }
-                        i = delta;
                     }
+
+
+                }
+                if ((elem * INCREMENT_NUMBER) >= mTemperaturesREST.length) {
+                    tempRESTfloat[i] = (float) 0;
+                } else {
+                    tempRESTfloat[i] = (float) mTemperaturesREST[elem * INCREMENT_NUMBER];
                 }
 
-
-            }
-            if ((elem * INCREMENT_NUMBER) >= mTemperaturesREST.length){
-                tempRESTfloat[i] = (float) 0;
-            }else{
-                tempRESTfloat[i] = (float) mTemperaturesREST[elem * INCREMENT_NUMBER];
+                elem++;
             }
 
-            elem++;
-        }
-
-        for (int i = 0; i < MEASURES_NUMBER; i++) {
-            if (i % 4 == 0) {
-                tempRESTstr[i] = timeHolder.toString();
-            } else {
-                tempRESTstr[i] = "";
+            for (int i = 0; i < MEASURES_NUMBER; i++) {
+                if (i % 4 == 0) {
+                    tempRESTstr[i] = timeHolder.toString();
+                } else {
+                    tempRESTstr[i] = "";
+                }
+                timeHolder.increment();
             }
-            timeHolder.increment();
-        }
             //prepare colors
             int dotColor = mChart.getResources().getColor(R.color.accent);
             int gridLabelColor = mChart.getResources().getColor(R.color.secondary_text);
 
-            Paint gridPaint = new Paint();
             gridPaint.setColor(gridLabelColor);
             gridPaint.setStyle(Paint.Style.STROKE);
             gridPaint.setAntiAlias(true);
@@ -127,7 +133,8 @@ public class DayViewAdapter extends RecyclerView.Adapter<DayViewAdapter.DayViewV
 
             mChart.setBorderSpacing(Tools.fromDpToPx(0))
                     .setStep(1)
-                    .setGrid(ChartView.GridType.FULL, 3, 12, gridPaint)
+                    //Bug #98
+                    //.setGrid(ChartView.GridType.FULL, 3, 12, gridPaint)
                     .setAxisBorderValues(0, 30)
                     .setYLabels(AxisController.LabelPosition.NONE)
                     .setLabelsColor(gridLabelColor)

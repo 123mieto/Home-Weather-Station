@@ -144,7 +144,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<DayDataLight> elems = new ArrayList<>();
         Cursor cr;
         try {
-            cr = mDb.query(LIGHT_TAB, new String[]{LIGHT_VAL, LIGHT_TIME, LIGHT_DATE}, null, null, null, null, LIGHT_DATE + " DESC", "10");
+            /*"DISTINCT " is a little hack to use query with all its benefits but have all distinct elements*/
+            cr = mDb.query(LIGHT_TAB, new String[]{"DISTINCT " + LIGHT_VAL, LIGHT_TIME, LIGHT_DATE}, null, null, null, null, LIGHT_DATE + " DESC", "10");
         } catch (SQLiteException e) {
             throw new SQLiteException(e.getMessage(), e.getCause());
         }
@@ -193,7 +194,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<DayDataTemp> elems = new ArrayList<>();
         Cursor cr;
         try {
-            cr = mDb.query(TEMPERATURES_TAB, new String[]{TEMPERATURES_VAL, TEMPERATURES_TIME, TEMPERATURES_DATE}, null, null, null, null, TEMPERATURES_DATE + " DESC", "10");
+            /*"DISTINCT " is a little hack to use query with all its benefits but have all distinct elements*/
+            cr = mDb.query(TEMPERATURES_TAB, new String[]{"DISTINCT " + TEMPERATURES_VAL, TEMPERATURES_TIME, TEMPERATURES_DATE}, null, null, null, null, TEMPERATURES_DATE + " DESC", "10");
         } catch (SQLiteException e) {
             throw new SQLiteException(e.getMessage(), e.getCause());
         }

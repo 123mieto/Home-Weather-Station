@@ -28,4 +28,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.diogobernardino:williamchart:2.2'
+    compile 'io.github.yavski:fab-speed-dial:1.0.6'
 }

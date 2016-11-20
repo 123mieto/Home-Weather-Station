@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickedAllMeasButton(View view){
-        Intent intent = new Intent(this, MeasActivity.class);
+        Intent intent = new Intent(this, CurrentDataActivity.class);
         startActivity(intent);
     }
 

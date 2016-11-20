@@ -1,0 +1,14 @@
+<menu>
+    <!--<item-->
+        <!--android:id="@+id/action_call"-->
+        <!--android:icon="@drawable/ic_call_black_24px"-->
+        <!--android:title="PIERWEJ" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_text"-->
+        <!--android:icon="@drawable/ic_chat_bubble_outline_black_24px"-->
+        <!--android:title="DRUGIEJ" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_email"-->
+        <!--android:icon="@drawable/ic_mail_outline_black_24px"-->
+        <!--android:title="TRIEJ" />-->
+</menu>

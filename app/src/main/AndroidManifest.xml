@@ -18,9 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.CurrentDataActivity"/>
         <activity android:name=".activities.DaysActivity" />
         <activity android:name=".activities.MeasActivity" />
-        <activity android:name=".activities.PeripheralsControlActivity"></activity>
+        <activity android:name=".activities.PeripheralsControlActivity" />
     </application>
 
 </manifest>

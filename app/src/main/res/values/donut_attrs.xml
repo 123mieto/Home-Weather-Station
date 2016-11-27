@@ -9,8 +9,10 @@
         <attr name="donut_range_start" format="integer" />
         <attr name="donut_range_end" format="integer" />
         <attr name="donut_text_color" format="color"/>
+        <attr name="donut_text_color_darker" format="color"/>
         <attr name="donut_title" format="string" />
         <attr name="donut_act_caption" format="string" />
         <attr name="donut_max_caption" format="string" />
+        <attr name="donut_value_symbol" format="string"/>
     </declare-styleable>
 </resources>

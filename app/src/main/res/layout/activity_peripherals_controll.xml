@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/AppTheme"
+
     tools:context=".activities.PeripheralsControlActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/MyToolbarStyle"
-        appcompat:title="@string/peripherals_control_title"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-        android:layout_height="wrap_content" />
+        appcompat:title="@string/peripherals_control_title" />
 
     <RelativeLayout
         android:id="@+id/led1"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="30dp"
-            android:onClick="onDirectESP8266LedSwitch"
+            android:onClick="onESP8266LedSwitch"
             android:text="ON " />
     </RelativeLayout>
 

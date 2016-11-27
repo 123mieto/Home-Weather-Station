@@ -43,9 +43,7 @@ public class PeripheralsControlActivity extends AppCompatActivity {
 
     private RestService mRestService;
     private OkHttpClient okClient;
-    //TODO: pomiar - inny plik
-//    private Request tempReqESP;
-//    private Request lightReqESP;
+
     private Request ledOnESP;
     private Request ledOffESP;
 
@@ -107,10 +105,6 @@ public class PeripheralsControlActivity extends AppCompatActivity {
                 mTvESPLed.setEnabled(true);
             }
         });
-
-        //TODO: powinno byc w innym pliku a nie w kontrol - to jest pobieranie pomiaru
-//        tempReqESP = new Request.Builder().url(ENDPOINT_ESP8266 + "temp").build();
-//        lightReqESP = new Request.Builder().url(ENDPOINT_ESP8266 + "light_lvl").build();
     }
 
     private void prepareRetrofit() {
@@ -160,7 +154,7 @@ public class PeripheralsControlActivity extends AppCompatActivity {
     }
 
     public void logConnectionAPI() {
-        //TODO: to nie bedzie wołane z tego miejsca
+
         Call<LogResult> logCall = mRestService.logTime(time, deviceNumber, duration);
         logCall.enqueue(new Callback<LogResult>() {
             @Override
@@ -176,8 +170,6 @@ public class PeripheralsControlActivity extends AppCompatActivity {
     }
 
     public void switchLedAPI(int state) {
-        //TODO: to nie bedzie wołane z tego miejsca
-
         Call<LedResult> ledCall = mRestService.setLed(ledNumber, state);
         ledCall.enqueue(new Callback<LedResult>() {
             @Override
@@ -226,7 +218,7 @@ public class PeripheralsControlActivity extends AppCompatActivity {
         });
     }
 
-    public void onDirectESP8266LedSwitch(View view) {
+    public void onESP8266LedSwitch(View view) {
         if (mESPLEd.isChecked()) {
             switchESPLed(true);
         } else {
@@ -234,3 +226,4 @@ public class PeripheralsControlActivity extends AppCompatActivity {
         }
     }
 }
+

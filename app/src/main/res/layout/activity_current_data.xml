@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:theme="@style/AppTheme"
     tools:context="com.dev.mieto.homeweatherstation.activities.CurrentDataActivity">
 
-<com.dev.mieto.homeweatherstation.DonutGraphView
-    android:id="@+id/donut"
-    android:layout_width="250dp"
-    android:layout_height= "250dp"
-    android:layout_centerHorizontal="true"
-    app:act_value_color="@color/primary"
-    app:back_color="@color/primary_text"
-    app:max_value_color="@color/accent"
-    app:donut_width="200dp"
-    app:donut_height="200dp"/>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/MyToolbarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        appcompat:title="@string/actual_charts_title" />
+
+    <com.dev.mieto.homeweatherstation.DonutGraphView
+        android:id="@+id/donutLightLevel"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        app:act_value_color="@color/donut_actual"
+        app:back_color="@color/donut_back"
+        app:donut_height="200dp"
+        app:donut_range_end="1024"
+        app:donut_range_start="0"
+        app:donut_width="200dp"
+        app:max_value_color="@color/donut_max"
+        app:donut_text_color="@color/primary_light"
+        app:donut_title="@string/donut_title"
+        app:donut_act_caption="@string/donut_curr"
+        app:donut_max_caption="@string/donut_max"/>
+
+    <com.dev.mieto.homeweatherstation.DonutGraphView
+        android:id="@+id/donutTempLevel"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_below="@id/donutLightLevel"
+        android:layout_centerHorizontal="true"
+        app:act_value_color="@color/donut_actual"
+        app:back_color="@color/donut_back"
+        app:donut_height="200dp"
+        app:donut_range_end="40"
+        app:donut_range_start="-10"
+        app:donut_width="200dp"
+        app:max_value_color="@color/donut_max"
+        app:donut_text_color="@color/primary_light"
+        app:donut_title="@string/donut_title_temp"
+        app:donut_act_caption="@string/donut_curr"
+        app:donut_max_caption="@string/donut_max"/>
 </RelativeLayout>

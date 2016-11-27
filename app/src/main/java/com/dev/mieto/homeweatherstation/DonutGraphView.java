@@ -14,14 +14,28 @@ import android.view.View;
  */
 public class DonutGraphView extends View {
 
-    private int maxValueColor;
-    private int actValueColor;
-    private int backColor;
+    private static final int START_ANGLE = 120;
+    private static final int END_ANGLE = 300;
+
+    private int mMaxValueColor;
+    private int mActValueColor;
+    private int mBackColor;
+
+    private int mRangeStart;
+    private int mRangeEnd;
+
+    private int mActValue;
+    private int mMaxValue;
 
     private int width;
     private int height;
 
-    private Paint mPaint;
+    private int mTextColor;
+    private String mGraphTitle;
+    private String mActCaption;
+    private String mMaxCaption;
+
+    private Paint mActPaint, mMaxValPaint, mBackPaint;
 
     private RectF shape;
 
@@ -35,12 +49,6 @@ public class DonutGraphView extends View {
         super(context, attrs);
 
         init(attrs);
-
-//        maxValueColor = attrs.getAttributeIntValue("donut_color", "max_value_color", Color.rgb(0xff,0x00,0xff));
-//        actValueColor = attrs.getAttributeIntValue("donut_color", "act_value_color", Color.rgb(0xff,0xff,0x00));
-//        backColor = attrs.getAttributeIntValue("donut_color", "back_color", Color.rgb(0x00,0xff,0xff));
-//        width = attrs.getAttributeIntValue("width","width",100);
-//        height = attrs.getAttributeIntValue("height","height", 100);
     }
 
     private void init(AttributeSet attrs) {
@@ -48,22 +56,41 @@ public class DonutGraphView extends View {
                 attrs,
                 R.styleable.DonutGraphView);
         //Use a
-        actValueColor = a.getColor(
+        mActValueColor = a.getColor(
                 R.styleable.DonutGraphView_act_value_color, Color.GREEN);
-        backColor = a.getColor(
+        mBackColor = a.getColor(
                 R.styleable.DonutGraphView_back_color, Color.BLACK);
-        maxValueColor = a.getColor(
+        mMaxValueColor = a.getColor(
                 R.styleable.DonutGraphView_max_value_color, Color.RED);
-
         width = (int) a.getDimension(R.styleable.DonutGraphView_donut_width, 100);
         height = (int) a.getDimension(R.styleable.DonutGraphView_donut_height, 100);
+        mRangeStart = a.getInteger(R.styleable.DonutGraphView_donut_range_start, 0);
+        mRangeEnd = a.getInteger(R.styleable.DonutGraphView_donut_range_end, 100);
+        mTextColor = a.getColor(R.styleable.DonutGraphView_donut_text_color, Color.BLACK);
+        mGraphTitle = a.getString(R.styleable.DonutGraphView_donut_title);
+        mActCaption = a.getString(R.styleable.DonutGraphView_donut_act_caption);
+        mMaxCaption = a.getString(R.styleable.DonutGraphView_donut_max_caption);
 
-        mPaint = new Paint();
-        mPaint.setColor(backColor);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(width/10);
-        mPaint.setAntiAlias(true);
+        mBackPaint = new Paint();
+        mBackPaint.setColor(mBackColor);
+        mBackPaint.setStyle(Paint.Style.STROKE);
+        mBackPaint.setStrokeCap(Paint.Cap.ROUND);
+        mBackPaint.setStrokeWidth(width/10);
+        mBackPaint.setAntiAlias(true);
+
+        mMaxValPaint = new Paint();
+        mMaxValPaint.setColor(mMaxValueColor);
+        mMaxValPaint.setStyle(Paint.Style.STROKE);
+        mMaxValPaint.setStrokeCap(Paint.Cap.ROUND);
+        mMaxValPaint.setStrokeWidth(width/10);
+        mMaxValPaint.setAntiAlias(true);
+
+        mActPaint = new Paint();
+        mActPaint.setColor(mActValueColor);
+        mActPaint.setStyle(Paint.Style.STROKE);
+        mActPaint.setStrokeCap(Paint.Cap.ROUND);
+        mActPaint.setStrokeWidth(width/10);
+        mActPaint.setAntiAlias(true);
 
         a.recycle();
     }
@@ -73,21 +100,17 @@ public class DonutGraphView extends View {
         super.onDraw(canvas);
 
         /*Big oval*/
-        mPaint.setColor(backColor);
-        canvas.drawArc(shape, 135, 290, false, mPaint);
+        canvas.drawArc(shape, START_ANGLE, END_ANGLE, false, mBackPaint);
 
-        mPaint.setColor(maxValueColor);
-        canvas.drawArc(shape, 115, 215, false, mPaint);
+        canvas.drawArc(shape, START_ANGLE, recalculateAngle(mMaxValue), false, mMaxValPaint);
 
-        mPaint.setColor(actValueColor);
-        canvas.drawArc(shape, 115, 150, false, mPaint);
+        canvas.drawArc(shape, START_ANGLE, recalculateAngle(mActValue), false, mActPaint);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         shape = new RectF((w - width) / 2, (h - height) / 2,
                 w - (w - width) / 2, h - (h - height) / 2);
-
     }
 
     public void setWidth(int width) {
@@ -98,7 +121,18 @@ public class DonutGraphView extends View {
         this.height = height;
     }
 
-    public void setPaint(Paint mPaint) {
-        this.mPaint = mPaint;
+    public void setActValue(int mActValue) {
+        this.mActValue = mActValue;
+        if (mActValue > this.mMaxValue){
+            mMaxValue = mActValue;
+        }
+    }
+
+    public void setMaxValue(int mMaxValue) {
+        this.mMaxValue = mMaxValue;
+    }
+
+    private int recalculateAngle(int val){
+        return (END_ANGLE) * val / (mRangeEnd - mRangeStart);
     }
 }

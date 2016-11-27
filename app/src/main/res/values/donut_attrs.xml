@@ -2,9 +2,15 @@
 <resources>
     <declare-styleable name="DonutGraphView">
         <attr name="act_value_color" format="color" />
-        <attr name="back_color" format="color"/>
+        <attr name="back_color" format="color" />
         <attr name="max_value_color" format="color" />
-        <attr name="donut_width" format="dimension"/>
-        <attr name="donut_height" format="dimension"/>
+        <attr name="donut_width" format="dimension" />
+        <attr name="donut_height" format="dimension" />
+        <attr name="donut_range_start" format="integer" />
+        <attr name="donut_range_end" format="integer" />
+        <attr name="donut_text_color" format="color"/>
+        <attr name="donut_title" format="string" />
+        <attr name="donut_act_caption" format="string" />
+        <attr name="donut_max_caption" format="string" />
     </declare-styleable>
 </resources>

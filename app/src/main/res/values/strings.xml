@@ -13,4 +13,9 @@
     <string name="measurement_last_meas_title">Latest measurements</string>
     <string name="peripherals_control_title">Control outputs</string>
     <string name="days_charts_title">Charts</string>
+    <string name="actual_charts_title">Actual values</string>
+    <string name="donut_title">Insolation</string>
+    <string name="donut_max">maximal</string>
+    <string name="donut_curr">current</string>
+    <string name="donut_title_temp">Temperature</string>
 </resources>

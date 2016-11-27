@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.dev.mieto.homeweatherstation.DonutGraphView;
 import com.dev.mieto.homeweatherstation.R;
@@ -28,18 +27,43 @@ public class CurrentDataActivity extends AppCompatActivity {
     private String currLightLvlVal;
     private String currTempVal;
 
-    private DonutGraphView donutGraphView;
+    private DonutGraphView donutGraphView_LightLevel;
+    private DonutGraphView donutGraphView_TempLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_data);
         setToolbar();
-        donutGraphView = (DonutGraphView) findViewById(R.id.donut);
-        getCurrentLightLevel();
-        getCurrentTemperature();
+        donutGraphView_LightLevel = (DonutGraphView) findViewById(R.id.donutLightLevel);
+        donutGraphView_TempLevel = (DonutGraphView) findViewById(R.id.donutTempLevel);
+        thread();
     }
 
+
+
+    private void thread() {
+        Thread t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(2000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateCharts();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        t.start();
+    }
 
     private void setToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,20 +90,35 @@ public class CurrentDataActivity extends AppCompatActivity {
         okClient.newCall(currLightLevel).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
-                Toast.makeText(CurrentDataActivity.this, "Error connecting ESP8266", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CurrentDataActivity.this, "Error connecting ESP8266", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
                 if (response.body() != null) {
-                    currLightLvlVal = response.body().toString();
+                    currLightLvlVal = response.body().string();
                 }
             }
         });
+    }
 
-//        donutGraphView.setWidth(100);
-//        donutGraphView.setHeight(100);
-//        donutGraphView.invalidate();
+    private void updateCharts() {
+        int temp;
+        int light;
+        getCurrentLightLevel();
+        getCurrentTemperature();
+        try {
+            temp = Integer.valueOf(currTempVal);
+            light = Integer.valueOf(currLightLvlVal);
+        } catch (Exception e) {
+            temp = 25;
+            light = 60;
+        }
+
+        donutGraphView_LightLevel.setActValue(light);
+        donutGraphView_LightLevel.invalidate();
+        donutGraphView_TempLevel.setActValue(temp);
+        donutGraphView_TempLevel.invalidate();
     }
 
     private void getCurrentTemperature() {
@@ -90,15 +129,17 @@ public class CurrentDataActivity extends AppCompatActivity {
         okClient.newCall(currTemp).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
-                Toast.makeText(CurrentDataActivity.this, "Error connecting ESP8266", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CurrentDataActivity.this, "Error connecting ESP8266", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
                 if (response.body() != null) {
-                    currTempVal = response.body().toString();
+                    currTempVal = response.body().string();
                 }
             }
         });
     }
+
+
 }

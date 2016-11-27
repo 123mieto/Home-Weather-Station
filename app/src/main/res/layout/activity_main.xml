@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
-    style="@style/AppTheme"
     android:columnCount="1"
     android:padding="5dp"
     android:rowCount="2"
+    android:theme="@style/AppTheme"
+
     tools:context=".activities.MainActivity">
 
 
@@ -18,37 +19,96 @@
         android:layout_row="0"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/all_meas"
-            android:layout_width="200dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:onClick="clickedAllMeasButton"
-            android:text="@string/measurements"
-            android:textColor="@color/primary_text"
-            android:background="@drawable/meas_512"/>
+            android:background="@color/main_button_up">
 
-        <Button
-            android:id="@+id/all_days"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:onClick="clickedAllDaysButton"
-            android:text="@string/days"
-            android:textColor="@color/primary_text"
-            android:background="@drawable/days_512"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/presentation"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"  />
 
-        <Button
-            android:id="@+id/ctrl_leds"
-            android:layout_width="200dp"
+            <Button
+                android:id="@+id/all_meas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00000000"
+                android:onClick="clickedAllMeasButton"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:text="@string/measurements"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text"
+                android:textSize="20dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:onClick="clickedPeripheralsControlButton"
-            android:text="@string/controller"
-            android:textColor="@color/primary_text"
-            android:background="@drawable/control_512"/>
+            android:background="@color/main_button_mid">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/linechart"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp" />
+
+            <Button
+                android:id="@+id/all_days"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="#00000000"
+                android:onClick="clickedAllDaysButton"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:text="@string/days"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/main_button_bottom">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/gamepad"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"  />
+
+            <Button
+                android:id="@+id/ctrl_leds"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00000000"
+                android:onClick="clickedPeripheralsControlButton"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:text="@string/controller"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text"
+                android:textSize="20dp" />
+        </RelativeLayout>
     </LinearLayout>
 </GridLayout>

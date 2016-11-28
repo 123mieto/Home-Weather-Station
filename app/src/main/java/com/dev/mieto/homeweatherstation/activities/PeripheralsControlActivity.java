@@ -38,6 +38,7 @@ public class PeripheralsControlActivity extends AppCompatActivity {
     private Switch mESPLEd;
     private Toolbar mToolbar;
 
+
     private int ledNumber;
     private long time, duration, deviceNumber;
 
@@ -56,6 +57,12 @@ public class PeripheralsControlActivity extends AppCompatActivity {
         mSwLed = (Switch) findViewById(R.id.swLed1);
         mTvESPLed = (TextView) findViewById(R.id.tvESPLed);
         mESPLEd = (Switch) findViewById(R.id.swLed2);
+
+        /*Disable all switches at init*/
+        mSwLed.setEnabled(false);
+        mTvLed.setEnabled(false);
+        mESPLEd.setEnabled(false);
+        mTvESPLed.setEnabled(false);
 
         //STUB
         ledNumber = 1;
@@ -92,18 +99,31 @@ public class PeripheralsControlActivity extends AppCompatActivity {
         ledOffESP = new Request.Builder().url(ENDPOINT_ESP8266 + "ledOff").build();
         /*Request to check connection with esp*/
         okClient.newCall(new Request.Builder().url(ENDPOINT_ESP8266).build()).enqueue(new okhttp3.Callback() {
+
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
-                mESPLEd.setEnabled(false);
-                mTvESPLed.setEnabled(false);
-                Toast.makeText(PeripheralsControlActivity.this, "Error connecting ESP8266", Toast.LENGTH_SHORT).show();
+                PeripheralsControlActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mESPLEd.setEnabled(false);
+                        mTvESPLed.setEnabled(false);
+                        Toast.makeText(PeripheralsControlActivity.this, "Error connecting ESP8266", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
-                mESPLEd.setEnabled(true);
-                mTvESPLed.setEnabled(true);
+                PeripheralsControlActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mESPLEd.setEnabled(true);
+                        mTvESPLed.setEnabled(true);
+                    }
+                });
             }
+
+
         });
     }
 
@@ -147,8 +167,7 @@ public class PeripheralsControlActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: NI MA NETU " + t.getMessage(), t);
                 Toast.makeText(PeripheralsControlActivity.this, "Error connecting raspberry", Toast.LENGTH_LONG).show();
                 //Disable switches if no connection
-                mSwLed.setEnabled(false);
-                mTvLed.setEnabled(false);
+
             }
         });
     }
@@ -174,7 +193,6 @@ public class PeripheralsControlActivity extends AppCompatActivity {
         ledCall.enqueue(new Callback<LedResult>() {
             @Override
             public void onResponse(Call<LedResult> call, Response<LedResult> response) {
-
             }
 
             @Override

@@ -8,8 +8,8 @@
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
-    <color name="donut_actual">#FFEB3B</color>
-    <color name="donut_max">#FF5722</color>
+    <color name="donut_actual">#ffc107</color>
+    <color name="donut_max">#ff5252</color>
     <color name="donut_back">#BDBDBD</color>
     <color name="main_button_up">#4db6ac </color>
     <color name="main_button_mid">#ffc107 </color>

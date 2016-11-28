@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
+    tools:context="com.dev.mieto.homeweatherstation.activities.CurrentDataActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/MyToolbarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        appcompat:title="@string/actual_charts_title" />
+
+    <com.dev.mieto.homeweatherstation.DonutGraphView
+
+        android:id="@+id/donutLightLevel"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:act_value_color="@color/donut_actual"
+        app:back_color="@color/donut_back"
+        app:donut_act_caption="@string/donut_curr"
+        app:donut_height="200dp"
+        app:donut_max_caption="@string/donut_max"
+        app:donut_range_end="1024"
+        app:donut_range_start="0"
+        app:donut_text_color="@color/primary_light"
+        app:donut_text_color_darker="@color/secondary_text"
+        app:donut_title="@string/donut_title"
+        app:donut_value_symbol="lx"
+        app:donut_width="200dp"
+        app:max_value_color="@color/donut_max"
+        android:layout_below="@+id/toolbar"
+        android:layout_toStartOf="@+id/donutTempLevel" />
+
+    <com.dev.mieto.homeweatherstation.DonutGraphView
+        android:id="@+id/donutTempLevel"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:act_value_color="@color/donut_actual"
+        app:back_color="@color/donut_back"
+        app:donut_act_caption="@string/donut_curr"
+        app:donut_height="200dp"
+        app:donut_max_caption="@string/donut_max"
+        app:donut_range_end="40"
+        app:donut_range_start="-10"
+        app:donut_text_color="@color/primary_light"
+        app:donut_text_color_darker="@color/secondary_text"
+        app:donut_title="@string/donut_title_temp"
+        app:donut_value_symbol="\u2103"
+        app:donut_width="200dp"
+        app:max_value_color="@color/donut_max"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="45dp" />
+</RelativeLayout>

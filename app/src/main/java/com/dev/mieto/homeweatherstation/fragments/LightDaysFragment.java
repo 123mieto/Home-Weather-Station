@@ -67,7 +67,7 @@ public class LightDaysFragment extends Fragment {
                    if (oldDataList.size() > 0) {
                        for (DayDataLight data : response.body().getDays()) {
                            for (DayDataLight oldData : oldDataList) {
-                               if ((data.getDate() == oldData.getDate())) {
+                               if ((data.getDate().equals(oldData.getDate()))) {
                                    //Values are sorted so next values are also repeated
                                    break;
                                }

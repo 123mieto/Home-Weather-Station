@@ -27,7 +27,6 @@ public class MeasActivity extends AppCompatActivity {
     public static final String ENDPOINT = "http://192.168.0.87:5000/api/v1/";
 
     private RecyclerView recyclerView;
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,8 @@ public class MeasActivity extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

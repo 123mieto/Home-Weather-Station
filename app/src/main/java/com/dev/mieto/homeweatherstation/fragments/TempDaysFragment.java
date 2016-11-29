@@ -77,7 +77,7 @@ public class TempDaysFragment extends android.support.v4.app.Fragment {
                     if (oldDataList.size() > 0) {
                         for (DayDataTemp data : response.body().getDays()) {
                             for (DayDataTemp oldData : oldDataList) {
-                                if ((data.getDate() == oldData.getDate())) {
+                                if ((data.getDate().equals(oldData.getDate()))) {
                                     //Values are sorted so next values are also repeated
                                     break;
                                 }

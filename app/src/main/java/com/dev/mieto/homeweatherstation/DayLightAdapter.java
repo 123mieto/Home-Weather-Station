@@ -29,9 +29,6 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
     private List<DayDataLight> mDayData = new ArrayList<>();
 
     private Paint gridPaint = new Paint();
-    private LineChartView mChart;
-    private long[] mTimesREST;
-    private int[] mLightsREST;
 
 
     public DayLightAdapter(List<DayDataLight> results) {
@@ -44,8 +41,7 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
     }
 
     private LineSet prepChartDataset() {
-        LineSet chartDataset = new LineSet(new String[]{"", ""}, new float[]{0f, 20.0f});
-        return chartDataset;
+        return new LineSet(new String[]{"", ""}, new float[]{0f, 20.0f});
     }
 
     @Override
@@ -59,7 +55,7 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
         TimeHolder timeHolder = new TimeHolder();
         long hour,minutes;
 
-        mChart = holder.measChart;
+        LineChartView mChart = holder.measChart;
 
         /*If reloading check if one dataset*/
         if(mChart.getData().size() != 0){
@@ -68,8 +64,8 @@ public class DayLightAdapter extends RecyclerView.Adapter<DayViewAdapter.DayView
         }
 
         holder.date.setText(mDayData.get(position).getDate());
-        mTimesREST = mDayData.get(position).getTimes();
-        mLightsREST = mDayData.get(position).getLight();
+        long[] mTimesREST = mDayData.get(position).getTimes();
+        int[] mLightsREST = mDayData.get(position).getLight();
         int mTempRestLen = mLightsREST.length;
         if (mTempRestLen > 0) {
             float[] tempRESTfloat = new float[MEASURES_NUMBER];

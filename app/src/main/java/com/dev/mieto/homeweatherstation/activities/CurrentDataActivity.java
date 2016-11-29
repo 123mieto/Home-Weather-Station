@@ -20,10 +20,6 @@ public class CurrentDataActivity extends AppCompatActivity {
     public static final String ENDPOINT_ESP8266 = "http://192.168.0.80:80/";
     private OkHttpClient okClient;
 
-    private Toolbar mToolbar;
-    private Request currLightLevel;
-    private Request currTemp;
-
     private String currLightLvlVal;
     private String currTempVal;
 
@@ -66,7 +62,7 @@ public class CurrentDataActivity extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,7 +80,7 @@ public class CurrentDataActivity extends AppCompatActivity {
 
     private void getCurrentLightLevel() {
         okClient = new OkHttpClient();
-        currLightLevel = new Request.Builder().url(ENDPOINT_ESP8266 + "light_lvl").build();
+        Request currLightLevel = new Request.Builder().url(ENDPOINT_ESP8266 + "light_lvl").build();
 
         /*Request to check connection with esp*/
         okClient.newCall(currLightLevel).enqueue(new okhttp3.Callback() {
@@ -123,7 +119,7 @@ public class CurrentDataActivity extends AppCompatActivity {
 
     private void getCurrentTemperature() {
         okClient = new OkHttpClient();
-        currTemp = new Request.Builder().url(ENDPOINT_ESP8266 + "temp").build();
+        Request currTemp = new Request.Builder().url(ENDPOINT_ESP8266 + "temp").build();
 
         /*Request to check connection with esp*/
         okClient.newCall(currTemp).enqueue(new okhttp3.Callback() {

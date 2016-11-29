@@ -6,7 +6,6 @@ package com.dev.mieto.homeweatherstation;
 public class TimeHolder {
 
     private int mTime;
-    private StringBuilder mTimeStr;
 
     private static final int TIME_ADD = 30;
 
@@ -24,7 +23,7 @@ public class TimeHolder {
     }
 
     public String toString() {
-        mTimeStr = new StringBuilder();
+        StringBuilder mTimeStr = new StringBuilder();
         mTimeStr.append(String.valueOf(mTime / 60));
         mTimeStr.append(":");
         if ((mTime % 60) == 0){

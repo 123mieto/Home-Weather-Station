@@ -23,10 +23,6 @@ public class DaysActivity extends AppCompatActivity {
     public static final String TAG = DaysActivity.class.getSimpleName();
     public static final String ENDPOINT = "http://192.168.0.87:5000/api/v1/";
 
-    private Toolbar mToolbar;
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +30,11 @@ public class DaysActivity extends AppCompatActivity {
 
         setToolbar();
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
         if (mViewPager != null){
             setupViewPager(mViewPager);
         }
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
         if (mTabLayout != null){
             mTabLayout.setupWithViewPager(mViewPager);
         }
@@ -46,7 +42,7 @@ public class DaysActivity extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

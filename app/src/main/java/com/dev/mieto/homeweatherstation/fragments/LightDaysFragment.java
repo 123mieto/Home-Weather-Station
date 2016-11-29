@@ -54,48 +54,51 @@ public class LightDaysFragment extends Fragment {
            @Override
            public void onResponse(Call<DayDataLightResult> call, Response<DayDataLightResult> response) {
                Log.d(TAG, "onResponse: OK ");
-               DayLightAdapter measAdapter = new DayLightAdapter(response.body().getDays());
+               if (isAdded()){
+                   DayLightAdapter measAdapter = new DayLightAdapter(response.body().getDays());
 
-               recyclerView.setHasFixedSize(true);
-               recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-               recyclerView.setAdapter(measAdapter);
+                   recyclerView.setHasFixedSize(true);
+                   recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                   recyclerView.setAdapter(measAdapter);
 
-               DataBaseHelper db = new DataBaseHelper(getContext());
-               ArrayList<DayDataLight> oldDataList = db.selectLightData();
+                   DataBaseHelper db = new DataBaseHelper(getContext());
+                   ArrayList<DayDataLight> oldDataList = db.selectLightData();
 
-               if (oldDataList.size() > 0) {
-                   for (DayDataLight data : response.body().getDays()) {
-                       for (DayDataLight oldData : oldDataList) {
-                           if ((data.getDate() == oldData.getDate())) {
-                               //Values are sorted so next values are also repeated
-                               break;
+                   if (oldDataList.size() > 0) {
+                       for (DayDataLight data : response.body().getDays()) {
+                           for (DayDataLight oldData : oldDataList) {
+                               if ((data.getDate() == oldData.getDate())) {
+                                   //Values are sorted so next values are also repeated
+                                   break;
+                               }
                            }
+                           //No such data found so put it into local db
+                           db.insertLightData(data.getLight(),
+                                   data.getTimes(),
+                                   data.getDate());
                        }
-                       //No such data found so put it into local db
-                       db.insertLightData(data.getLight(),
-                               data.getTimes(),
-                               data.getDate());
-                   }
-               } else {
-                   //No old data found so put everything in local db
-                   for (DayDataLight data : response.body().getDays()) {
-                       db.insertLightData(data.getLight(),
-                               data.getTimes(),
-                               data.getDate());
+                   } else {
+                       //No old data found so put everything in local db
+                       for (DayDataLight data : response.body().getDays()) {
+                           db.insertLightData(data.getLight(),
+                                   data.getTimes(),
+                                   data.getDate());
+                       }
                    }
                }
-
            }
 
            @Override
            public void onFailure(Call<DayDataLightResult> call, Throwable t) {
                Log.e(TAG, "onFailure: NI MA NETU " + t.getMessage(), t);
-               Toast.makeText(getContext(), "Error downloading. Data not refreshed", Toast.LENGTH_LONG).show();
-               DataBaseHelper db = new DataBaseHelper(getContext());
-               DayLightAdapter measAdapter = new DayLightAdapter(db.selectLightData());
-               recyclerView.setHasFixedSize(true);
-               recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-               recyclerView.setAdapter(measAdapter);
+               if (isAdded()) {
+                   Toast.makeText(getContext(), "Error downloading. Data not refreshed", Toast.LENGTH_LONG).show();
+                   DataBaseHelper db = new DataBaseHelper(getContext());
+                   DayLightAdapter measAdapter = new DayLightAdapter(db.selectLightData());
+                   recyclerView.setHasFixedSize(true);
+                   recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                   recyclerView.setAdapter(measAdapter);
+               }
            }
        }
 

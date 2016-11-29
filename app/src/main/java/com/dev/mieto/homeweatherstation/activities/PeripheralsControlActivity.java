@@ -36,7 +36,6 @@ public class PeripheralsControlActivity extends AppCompatActivity {
     private TextView mTvESPLed;
     private Switch mSwLed;
     private Switch mESPLEd;
-    private Toolbar mToolbar;
 
 
     private int ledNumber;
@@ -77,7 +76,7 @@ public class PeripheralsControlActivity extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -229,8 +228,6 @@ public class PeripheralsControlActivity extends AppCompatActivity {
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Error: " + response, Toast.LENGTH_LONG).show();
-                } else {
-                    //GOOD
                 }
             }
         });

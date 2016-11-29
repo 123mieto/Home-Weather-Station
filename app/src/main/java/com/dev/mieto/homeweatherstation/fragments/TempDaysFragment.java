@@ -65,47 +65,50 @@ public class TempDaysFragment extends android.support.v4.app.Fragment {
             @Override
             public void onResponse(Call<DayDataTempResult> call, Response<DayDataTempResult> response) {
                 Log.d(TAG, "onResponse: OK ");
-                DayViewAdapter measAdapter = new DayViewAdapter(response.body().getDays());
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(measAdapter);
+                if (isAdded()){
+                    DayViewAdapter measAdapter = new DayViewAdapter(response.body().getDays());
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(measAdapter);
 
-                DataBaseHelper db = new DataBaseHelper(getContext());
-                ArrayList<DayDataTemp> oldDataList = db.selectTemperatureData();
+                    DataBaseHelper db = new DataBaseHelper(getContext());
+                    ArrayList<DayDataTemp> oldDataList = db.selectTemperatureData();
 
-                if (oldDataList.size() > 0) {
-                    for (DayDataTemp data : response.body().getDays()) {
-                        for (DayDataTemp oldData : oldDataList) {
-                            if ((data.getDate() == oldData.getDate())) {
-                                //Values are sorted so next values are also repeated
-                                break;
+                    if (oldDataList.size() > 0) {
+                        for (DayDataTemp data : response.body().getDays()) {
+                            for (DayDataTemp oldData : oldDataList) {
+                                if ((data.getDate() == oldData.getDate())) {
+                                    //Values are sorted so next values are also repeated
+                                    break;
+                                }
                             }
+                            //No such data found so put it into local db
+                            db.insertTemperatureData(data.getTemperatures(),
+                                    data.getTimes(),
+                                    data.getDate());
                         }
-                        //No such data found so put it into local db
-                        db.insertTemperatureData(data.getTemperatures(),
-                                data.getTimes(),
-                                data.getDate());
-                    }
-                } else {
-                    //No old data found so put everything in local db
-                    for (DayDataTemp data : response.body().getDays()) {
-                        db.insertTemperatureData(data.getTemperatures(),
-                                data.getTimes(),
-                                data.getDate());
+                    } else {
+                        //No old data found so put everything in local db
+                        for (DayDataTemp data : response.body().getDays()) {
+                            db.insertTemperatureData(data.getTemperatures(),
+                                    data.getTimes(),
+                                    data.getDate());
+                        }
                     }
                 }
-            }
+             }
 
             @Override
             public void onFailure(Call<DayDataTempResult> call, Throwable t) {
                 Log.e(TAG, "onFailure: NI MA NETU " + t.getMessage(), t);
-                Toast.makeText(getContext(), "Error downloading. Data not refreshed", Toast.LENGTH_LONG).show();
-                DataBaseHelper db = new DataBaseHelper(getContext());
-                DayViewAdapter measAdapter = new DayViewAdapter(db.selectTemperatureData());
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(measAdapter);
-
+                if (isAdded()){
+                    Toast.makeText(getContext(), "Error downloading. Data not refreshed", Toast.LENGTH_LONG).show();
+                    DataBaseHelper db = new DataBaseHelper(getContext());
+                    DayViewAdapter measAdapter = new DayViewAdapter(db.selectTemperatureData());
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(measAdapter);
+                }
             }
         });
 

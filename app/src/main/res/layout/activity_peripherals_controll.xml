@@ -38,7 +38,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="30dp"
             android:onClick="onLedSwitch"
-            android:text="ON " />
+            android:text="@string/on" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -64,7 +64,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="30dp"
             android:onClick="onESP8266LedSwitch"
-            android:text="ON " />
+            android:text="@string/on" />
     </RelativeLayout>
 
 

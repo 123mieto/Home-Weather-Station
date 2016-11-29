@@ -18,4 +18,5 @@
     <string name="donut_max">maximal</string>
     <string name="donut_curr">current</string>
     <string name="donut_title_temp">temperature</string>
+    <string name="on">ON</string>
 </resources>
